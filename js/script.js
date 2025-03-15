@@ -245,3 +245,29 @@ function condeJarlSagaGame() {
     timedButton.addEventListener("click", () => startGame("timed"));
     changeModeButton.addEventListener("click", changeMode);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    condeJarlSagaGame();
+
+    // Get modal elements
+    const instructionsButton = document.getElementById("instructions");
+    const instructionsModal = document.getElementById("instructionsModal");
+    const closeModal = document.querySelector(".modal .close");
+
+    // Show the instructions modal when the button is clicked
+    instructionsButton.addEventListener("click", () => {
+        instructionsModal.style.display = "flex";
+    });
+
+    // Hide the modal when the close button (X) is clicked
+    closeModal.addEventListener("click", () => {
+        instructionsModal.style.display = "none";
+    });
+
+    // Hide the modal if the user clicks outside of it
+    window.addEventListener("click", (event) => {
+        if (event.target === instructionsModal) {
+            instructionsModal.style.display = "none";
+        }
+    });
+});
