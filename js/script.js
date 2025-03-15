@@ -187,29 +187,41 @@ function condeJarlSagaGame() {
     // Start the Game
     function startGame(mode) {
         currentMode = mode;
-        modeSelection.style.display = "none";
-        grid.style.display = "flex";
-        scoreDisplay.parentElement.style.display = "flex"; // Show scoreboard
-        createBoard();
-        score = 0;
-        scoreDisplay.innerHTML = score;
-        gameInterval = setInterval(gameLoop, 100);
 
-        if (mode === "timed") {
-            timeLeft = 120; // 2 minutes in seconds
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timeLeft--;
+        // Apply fade-out effect to the mode selection
+        modeSelection.classList.add("hidden");
+
+        // Wait for the animation to complete before hiding the element
+        setTimeout(() => {
+            modeSelection.style.display = "none";
+            grid.style.display = "flex";
+            scoreDisplay.parentElement.style.display = "flex";
+
+            // Apply fade-in effect to the game
+            grid.classList.add("visible");
+
+            createBoard();
+            score = 0;
+            scoreDisplay.innerHTML = score;
+            gameInterval = setInterval(gameLoop, 100);
+
+            if (mode === "timed") {
+                timeLeft = 120; // 2 minutes in seconds
                 updateTimerDisplay();
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    endGame();
-                }
-            }, 1000);
-        } else {
-            timerDisplay.innerHTML = ""; // Clear timer in Endless Mode
-        }
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        endGame();
+                    }
+                }, 1000);
+            } else {
+                timerDisplay.innerHTML = ""; // Clear timer in Endless Mode
+            }
+        }, 500); // The timeout should match the animation duration (0.5s)
     }
+
 
     // Update Timer Display
     function updateTimerDisplay() {
